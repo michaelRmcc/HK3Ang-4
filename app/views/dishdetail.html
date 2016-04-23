@@ -48,13 +48,13 @@
                     <p>!The comment should be shown only when the f-o-r-m contains valid
                     information and is not pristine</p>
                     -->
-                    <blockquote class="bq_top_margin"
-                                ng-show = newEntry.newName === '' >
+                    <blockquote class="bq_top_margin" ng-show = "commentForm.$valid && !commentForm.$pristine" >
+										<!--  ng-show = newEntry.newName === '' >   -->
                       
-                        <p class="p_bold">{{newEntry.newRating | number}} Stars</p>
-                        <p class="p_bold">{{newEntry.newComment}}</p>
+                        <p class="p_bold">{{newEntry.rating | number}} Stars</p>
+                        <p class="p_bold">{{newEntry.comment}}</p>
                         <footer><cite><span ng-class ="{ng-show : commentForm.$valid}">
-                                    {{newEntry.newName}}</cite>, {{newEntry.newDate | date:'MMMM dd, yyyy'}}
+                                    {{newEntry.author}}</cite>, {{newEntry.date | date:'MMMM dd, yyyy'}}
                             </span></footer>
                     </blockquote>
                 </ul>
@@ -62,16 +62,16 @@
                 <form name="commentForm" class="form-horizontal" 
 									ng-submit="submitComment(commentForm.$valid)" novalidate>
 											
-                    <div class="form-group" ng-class="{ 'has-error has-feedback' : commentForm.authorname.$error.pattern
-                                                && !commentForm.authorname.$pristine}">
-                            <label for="authorname" class="col-sm-3 control-label">Your Name</label>
+                    <div class="form-group" ng-class="{ 'has-error has-feedback' : commentForm.author.$error.pattern
+                                                && !commentForm.author.$pristine}">
+                            <label for="author" class="col-sm-3 control-label">Your Name</label>
                             <div class="col-sm-9">
                                     <input type="text" name="authorname" class="form-control" id="a-name" 
                                                 placeholder="Enter Your Name"
-                                                ng-model="newEntry.newName" required
+                                                ng-model="newEntry.author" required
                                                 ng-pattern="/^[a-zA-Z\ ]+$/" >
-                                    <span ng-show="commentForm.authorname.$error.pattern &&
-                                                    !commentForm.authorname.$pristine" class="help-block">
+                                    <span ng-show="commentForm.author.$error.pattern &&
+                                                    !commentForm.author.$pristine" class="help-block">
                                         Valid Name has (valid characters: A-Z capitals/lowercase and space(s) )
 																				<!-- example: I know person with last name of: 'van Rensburg' -->
                                     </span>	
@@ -84,24 +84,24 @@
 												<div class="btn-group" id="aNewRating" data-toggle="buttons"
 																				class="form-control
 																				col-xs-12 col-sm-9 control-label" >
-														<label><input type="radio" ng-model="newEntry.newRating" id="01" name="therating" value="1"> 1 </label>
-														<label><input type="radio" ng-model="newEntry.newRating" id="02" name="therating" value="2"> 2 </label>
-														<label><input type="radio" ng-model="newEntry.newRating" id="03" name="therating" value="3"> 3 </label>
-														<label><input type="radio" ng-model="newEntry.newRating" id="04" name="therating" value="4"> 4 </label>
-														<label><input type="radio" ng-model="newEntry.newRating" id="05" name="therating" value="5"> 5 </label>
+														<label><input type="radio" ng-model="newEntry.rating" id="01" name="therating" value="1"> 1 </label>
+														<label><input type="radio" ng-model="newEntry.rating" id="02" name="therating" value="2"> 2 </label>
+														<label><input type="radio" ng-model="newEntry.rating" id="03" name="therating" value="3"> 3 </label>
+														<label><input type="radio" ng-model="newEntry.rating" id="04" name="therating" value="4"> 4 </label>
+														<label><input type="radio" ng-model="newEntry.rating" id="05" name="therating" value="5"> 5 </label>
 												</div>
 										</div>  <!-- / form-group for radio buttons -->
 									
-										<div class="form-group" ng-class="{ 'has-error has-feedback' : !commentForm.feedback.$pristine
-																	&& commentForm.feedback.$error.required	}">
-											<label for="feedback" class="col-sm-3 control-label">Your Comments</label>
+										<div class="form-group" ng-class="{ 'has-error has-feedback' : !commentForm.comment.$pristine
+																	&& commentForm.comment.$error.required	}">
+											<label for="comment" class="col-sm-3 control-label">Your Comments</label>
 											<div class="col-sm-9">
-														<textarea name="feedback" class="form-control" 
-																				id="feedback" rows="12"																
-																				ng-model="newEntry.newComment" required>
+														<textarea name="comment" class="form-control" 
+																				id="comment" rows="12"																
+																				ng-model="newEntry.comment" required>
 														</textarea>
-														<span ng-show="!commentForm.feedback.$pristine && 
-																			 commentForm.feedback.$error.required" class="help-block">
+														<span ng-show="!commentForm.comment.$pristine && 
+																			 commentForm.comment.$error.required" class="help-block">
 																Please leave a comment on the food and service. Your feedback helps.
 														</span>													
 

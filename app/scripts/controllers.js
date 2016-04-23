@@ -95,7 +95,7 @@ angular.module('confusionApp')
             //$scope.dish = menuFactory.getDishes().get({id:parseInt($stateParams.id,10)});
           	$scope.dish =
 							menuFactory.getDishes().get({id:parseInt($stateParams.id,10)})
-						.$promise.then(
+							.$promise.then(
 								function(response) {
 									$scope.dish = response;
 									$scope.showDish = true;
@@ -103,25 +103,26 @@ angular.module('confusionApp')
 								function(response) {
 									$scope.message = "Error: "+response.status + " " + response.statusText;
 								}
-						);
+							);
         }])
 
         .controller('DishCommentController', ['$scope','menuFactory', function($scope,menuFactory) {
-            
-            $scope.mycomment = {rating:5, comment:"", author:"", date:""};
+            //me old: mycomment me new (again!): newEntry
+            $scope.newEntry = {rating:5, comment:"", author:"", date:""};
             
             $scope.submitComment = function () {
                 
-                $scope.mycomment.date = new Date().toISOString();
-                console.log($scope.mycomment);
+                $scope.newEntry.date = new Date().toISOString();
+                console.log($scope.newEntry);
                 
-                $scope.dish.comments.push($scope.mycomment);
+                $scope.dish.comments.push($scope.newEntry);
 							
+								//push the new comment back to the server. so, persistent now
 								menuFactory.getDishes().update({id:$scope.dish.id},$scope.dish);
                 
                 $scope.commentForm.$setPristine();
                 
-                $scope.mycomment = {rating:5, comment:"", author:"", date:""} ;
+                $scope.newEntry = {rating:5, comment:"", author:":watch", date:""} ;
             };
         }])
 
@@ -147,9 +148,6 @@ angular.module('confusionApp')
 										);
 
 								$scope.showPromotion = false;
-								//$scope.promotion =
-								//		menuFactory.getPromotions().get({id:0});
-
 								$scope.promotion =
 										menuFactory.getPromotions().get({id:0})
 										.$promise.then(
@@ -161,10 +159,24 @@ angular.module('confusionApp')
 												$scope.message = "WHOA!Error: "+response.status + " " + response.statusText;
 											}
 								    );
-								//looking in chrome debugger - TypeError code: getLeader is not a function
-								//!! true !! should be plural
-								$scope.corpFac = corporateFactory.getLeaders().get({id:3});
+								//below works-now do it with error checking
+								//$scope.corpFac = corporateFactory.getLeaders().get({id:3});
 								
+								$scope.showLeader = false;
+								$scope.corpFac =
+									corporateFactory.getLeaders().get({id:3})
+									.$promise.then(
+										function(response) {
+											$scope.corpFac = response;
+											$scope.showLeader = true;
+										},
+										function(response) {
+											$scope.message = "Leaders from CorporateFactory Error!: "+response.status + " " + response.statusText;
+										}
+									);
+								
+
+								//add error-checking above		
 								
 						}])
 
