@@ -25,28 +25,16 @@ angular.module('confusionApp')
 						};
 								
         }])
+				
+				//mrm --- making this up for final-chunk of assignment4
+				.service('feedbackFactory', ['$resource', 'baseURL', function($resource,baseURL) {
+						
+						this.sendFeedback = function(){
+								//push feedback from the server
+								return $resource(baseURL+"feedback/:id", null, { 'save': { method: 'POST',	isArray:false } });								
+						};					
+					
+				}])
+				
 				;
-
-
-						//this is a 'factory' angular service. so create a
-						// javascript object. assign tasks to it. Then RETURN it.
-						//var corpfac = {};  
-								//corpfac.getLeaders = function() {
-								//	return $resource(baseURL+"leadership/:id",null,{'update':{method:'PUT' }});
-								//};
-								//	
-								//return corpfac;
-					//module.factory('MyService', function() {
-					//		 
-					//		var factory = {}; 
-					// 
-					//		factory.method1 = function() {
-					//						//..
-					//				}
-					// 
-					//		factory.method2 = function() {
-					//						//..
-					//				}
-					// 
-					//		return factory;
-					//});
+	

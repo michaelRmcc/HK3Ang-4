@@ -64,9 +64,12 @@ angular.module('confusionApp')
                         
         }])
 
-        .controller('FeedbackController', ['$scope', function($scope) {
-            
-            $scope.sendFeedback = function() {
+        .controller('FeedbackController', ['$scope', 'feedbackFactory',
+					function($scope, feedbackFactory) {
+
+							$scope.feedback = {mychannel:"", firstName:"", lastName:"", agree:false, email:"" };
+
+							$scope.sendFeedback = function() {
                 
                 console.log($scope.feedback);
                 
@@ -75,13 +78,16 @@ angular.module('confusionApp')
                     console.log('incorrect');
                 }
                 else {
+										//feedback entry is valid, so push it to server
+										feedbackFactory.sendFeedback().save($scope.feedback);
+										
                     $scope.invalidChannelSelection = false;
                     $scope.feedback = {mychannel:"", firstName:"", lastName:"", agree:false, email:"" };
                     $scope.feedback.mychannel="";
                     $scope.feedbackForm.$setPristine();
                     console.log($scope.feedback);
                 }
-            };
+							};
         }])
 
         .controller('DishDetailController',	['$scope', '$stateParams', 'menuFactory', function($scope, $stateParams, menuFactory) {
@@ -107,7 +113,7 @@ angular.module('confusionApp')
         }])
 
         .controller('DishCommentController', ['$scope','menuFactory', function($scope,menuFactory) {
-            //me old: mycomment me new (again!): newEntry
+
             $scope.newEntry = {rating:5, comment:"", author:"", date:""};
             
             $scope.submitComment = function () {
